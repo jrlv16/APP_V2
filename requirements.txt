@@ -1,0 +1,15 @@
+asgiref>=3.5.1
+autopep8>=1.6.0
+Django>=4.0.4
+django-filter>=21.1
+djangorestframework>=3.13.1
+djangorestframework-gis>=0.18
+djangorestframework-simplejwt>=5.1.0
+phonenumbers>=8.12.47
+psycopg2>=2.9.3
+pycodestyle>=2.8.0
+PyJWT>=2.3.0
+pytz>=2022.1
+sqlparse>=0.4.2
+toml>=0.10.2
+tzdata>=2022.1
