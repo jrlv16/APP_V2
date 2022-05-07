@@ -1,11 +1,13 @@
 import datetime
 import dateutil.parser
-from django.db import models
+from django.contrib.gis.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.contrib.gis.db.models import Q
 from rest_framework import serializers
+from datetime import timedelta
 
 
 class UserManager(BaseUserManager):
@@ -81,6 +83,24 @@ TYP_CHOICES = (
     (PORCIN, 'Porcin'),
     (DIVERS, 'Divers')
 )
+
+
+class Telephone(models.Model):
+    """
+    Telephone for user
+    """
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        verbose_name="Utilisateur",
+        on_delete=models.CASCADE)
+    phone = PhoneNumberField(_("Portable"),
+                             region='FR', null=False,
+                             blank=False,
+                             unique=True)
+    phonefix = PhoneNumberField(_("Tel Fixe"), null=True, blank=True)
+
+    def __str__(self):
+        return str(self.phone)
 
 
 class Cat(models.Model):
@@ -354,6 +374,10 @@ class Order(models.Model):
 # table produits to user pour simplifier la liste lors de la commande
 
 # créer la commande (utilisateur --> choix de l'élevage si plusieurs --> choix du produit --> choix du silo si plusieurs si rien remorque ou BB)
+
+# créer table téléphone to user
+
+# options supplémentaires
 
 # créer table address to elevage
 

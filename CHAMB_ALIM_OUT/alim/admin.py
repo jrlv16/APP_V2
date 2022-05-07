@@ -8,7 +8,7 @@ from alim.models import User, Cat, Chef_elev, Product, Elevage, Silo
 class UserAdmin(BaseUserAdmin):
     ordering = ['id']
     list_display = ['clientcode', 'societe', 'last_name',
-                    'first_name', 'categorie', 'email']
+                    'first_name', 'categorie', 'email', 'canOrder']
     list_filter = [
         'canOrder',
         'cat'

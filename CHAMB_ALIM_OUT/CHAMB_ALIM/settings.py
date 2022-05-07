@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'CHAMB_ALIM.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'chambalim',
+        'NAME': 'chambalim2',
         'USER': 'postgres',
         'PASSWORD': 'password',
         'HOST': '127.0.0.1',
