@@ -51,6 +51,38 @@ class UserAdmin(BaseUserAdmin):
         return cat.cat
 
 
+class TelephoneAdmin(admin.ModelAdmin):
+    ordering = ['id', ]
+    list_filter = ['user', ]
+    list_display = [
+        'user', 'phone', 'phonefix'
+    ]
+    fieldsets = (
+        (_('Coordonnées'), {
+            "fields": (
+                'user',
+                'phone',
+                'phonefix'
+            ),
+        }),
+    )
+
+
+class CatAdmin(admin.ModelAdmin):
+    list_filter = ['user', ]
+    list_display = [
+        'user', 'cat'
+    ]
+    fieldsets = (
+        (_('Catégorie'), {
+            "fields": (
+                'user',
+                'cat',
+            ),
+        }),
+    )
+
+
 class ProductAdmin(admin.ModelAdmin):
     ordering = ['produit']
     list_display = [
@@ -118,7 +150,8 @@ class OrderAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Order, OrderAdmin)
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.Telephone, TelephoneAdmin)
 admin.site.register(models.Product, ProductAdmin)
 admin.site.register(models.Elevage)
-admin.site.register(models.Cat)
+admin.site.register(models.Cat, CatAdmin)
 admin.site.register(models.Silo)

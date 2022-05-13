@@ -5,6 +5,7 @@ from client import views
 
 router = DefaultRouter()
 router.register('cat', views.CatViewSet)
+router.register('telephone', views.TelephoneViewSet)
 
 app_name = 'client/'
 

@@ -1,8 +1,11 @@
 from rest_framework import generics, authentication, permissions
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.settings import api_settings
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
-from user.serializers import UserSerializer, AuthTokenSerializer
+from user.serializers import UserSerializer, UserCoordSerializer
+from client.serializers import TelephoneSerializer, CatSerializer
+from alim.models import Telephone, Cat
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -10,18 +13,43 @@ class CreateUserView(generics.CreateAPIView):
     serializer_class = UserSerializer
 
 
-class CreateTokenView(ObtainAuthToken):
-    """Create a new auth token"""
-    serializer_class = AuthTokenSerializer
-    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
-
-
 class ManageUserView(generics.RetrieveUpdateAPIView):
     """Manage the authenticated user"""
     serializer_class = UserSerializer
-    authentication_classes = (authentication.TokenAuthentication,)
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get_object(self):
         """ Retrieve and return authenticated user"""
+        user = self.request.user
+        return user
+
+
+class UserCoordView(generics.CreateAPIView,
+                    generics.RetrieveAPIView):
+    """
+    Manage phone for user, perhaps address later
+    """
+    serializer_class = UserCoordSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        """
+        Retrieve and return authenticated user
+        """
+        print(self.request.user)
         return self.request.user
+
+    def create(self, request):
+        """
+        Creates Telephone for request user
+        """
+
+        user = self.get_object()
+        tel = Telephone()
+        tel.user = user
+        telephone = request.data
+        tel.phone = telephone['telephone']['phone']
+        tel.phonefix = telephone['telephone']['phonefix']
+        tel.save()
+        serializer = UserCoordSerializer(user)
+        return Response(serializer.data)

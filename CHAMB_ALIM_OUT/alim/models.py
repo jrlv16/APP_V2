@@ -133,7 +133,8 @@ class Cat(models.Model):
                            choices=CAT_CHOICES, default="CLIENT")
 
     def __str__(self):
-        return self.cat
+
+        return f"{self.cat}"
 
 
 class Chef_elev(User):

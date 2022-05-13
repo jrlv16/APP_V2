@@ -1,57 +1,53 @@
 from django.contrib.auth import get_user_model, authenticate
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
-from alim.models import models
+from alim.models import User, Telephone, Cat
 from django.contrib.gis.db.models import Q
+from client.serializers import TelephoneSerializer, CatSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
 
     """serializer for user object"""
+    cat = CatSerializer()
 
     class Meta:
         model = get_user_model()
         fields = ('clientcode', 'password', 'societe',
-                  'email', 'last_name', 'first_name')
+                  'email', 'last_name', 'first_name', 'cat')
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
 
     def create(self, validated_data):
         """ Create a new user with encrypted password"""
-        return get_user_model().objects.create_user(**validated_data)
+        cat_data = validated_data.pop('cat')
+        """on crée un fake de mail pour envoyer le reset password par sms 
+        en utilisant drf_password_reset, on testera suite au signal de demande 
+        de renouvellement de mot de passe si fake ou non
+        """
+        if not validated_data['email']:
+            validated_data['email'] = str(
+                validated_data['clientcode']+"@test.com")
+            print(validated_data['email'])
+
+        user = get_user_model().objects.create_user(**validated_data)
+        Cat.objects.create(user=user, **cat_data)
+        return user
 
     def update(self, instance, validated_data):
         """Update a user, setting the password correctly and return it"""
-        password = validated_data.pop('password', None)
+        cat_data = validated_data.pop('cat')
         user = super().update(instance, validated_data)
-
-        if password:
-            user.set_password(password)
-            user.save()
-
+        Cat.objects.update(**cat_data)
         return user
 
 
-class AuthTokenSerializer(serializers.Serializer):
-    """Serializer for the user authentication object"""
-    clientcode = serializers.CharField()
-    password = serializers.CharField(
-        style={'input_type': 'password'},
-        trim_whitespace=False
-    )
+class UserCoordSerializer(serializers.ModelSerializer):
+    """
+    Serializer for users telephon and adress
+    """
+    telephone = TelephoneSerializer(many=False)
 
-    def validate(self, attrs):
-        """Validate and authenticate the user"""
-        clientcode = attrs.get('clientcode')
-        password = attrs.get('password')
-
-        user = authenticate(
-            request=self.context.get('request'),
-            username=clientcode,
-            password=password
-        )
-        if not user:
-            msg = _("impossible d'authentifier l'utilisateur")
-            raise serializers.ValidationError(msg, code='authentication')
-
-        attrs['user'] = user
-        return attrs
+    class Meta:
+        model = get_user_model()
+        fields = ('id', 'first_name', 'last_name', 'telephone')
+        read_only_fields = ('id', 'first_name', 'last_name')
