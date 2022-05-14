@@ -1,0 +1,41 @@
+Reste à faire:
+email/sms lorsque changement d'état de canOrder
+
+
+créer les signaux et template, installer django sms
+mail ou sms en fonction de l'existence du mail (ou bien sms systématique) créer une variable d'environnement qui dira si on envoie sms ou mail ou 
+
+OPTION: créer table de choix pour client email/sms
+
+dans app user 
+    créer view chef_elev pour créer modifier chef d'élevage     OK
+    créer url correspondantes                                   OK
+    renouvellement password fonctionne                          OK
+    signaux pour envoi sms
+    chef_elev est crée envoie de mail/sms pourcréer mot de passe url
+        CHAMB_ALIM/password_reset/confirm/?token=xxxx...
+
+créer app commande pour gérer les commandes
+
+    créer serializer, vue, url pour élevage 
+    créer serializer, vue, url pour boisseau/silo 
+    views, url
+    délai mini de commande(Var ENV)
+    validation des commandes par FABRIC
+    envoi date/délai de livraison
+    signaux pour envoi sms
+
+        OPTION:
+        pour FABRIC affichage liste commande par client, produit, catégorie
+
+    liste des commandes du jour (définir plage horaire Var ENV) envoyée à heure fixe
+
+
+    OPTIONS:
+        Validation de la livraison par le chauffeur
+        Enregistrement des heures de passage
+        Enregistrement de(s) désinfection(s)
+
+OPTION:
+    création de la table addresstouser et géolocalisation
+
