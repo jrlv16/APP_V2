@@ -26,7 +26,8 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
 
 
 class UserCoordView(generics.CreateAPIView,
-                    generics.RetrieveAPIView):
+                    generics.RetrieveAPIView,
+                    generics.UpdateAPIView):
     """
     Manage phone for user, perhaps address later
     """
@@ -55,8 +56,24 @@ class UserCoordView(generics.CreateAPIView,
         serializer = UserCoordSerializer(user)
         return Response(serializer.data)
 
+    def update(self, request, *args, **kwargs):
+        """
+        Updates phone for request user
+        """
+        user = self.get_object()
+        telephone = Telephone.objects.get(user=user)
 
-class CreateChef_elevView(generics.ListCreateAPIView):
+        print(telephone)
+        telephone.phone = request.data['telephone']['phone']
+        telephone.phonefix = request.data['telephone']['phonefix']
+        telephone.save()
+        serializer = UserCoordSerializer(user)
+        return Response(serializer.data)
+
+
+class CreateChef_elevView(generics.ListCreateAPIView,
+                          generics.DestroyAPIView,
+                          ):
     """Create a new Chef_elev"""
     serializer_class = Chef_elevSerializer
 

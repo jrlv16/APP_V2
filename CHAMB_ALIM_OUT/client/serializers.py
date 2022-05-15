@@ -27,4 +27,4 @@ class TelephoneSerializer(serializers.ModelSerializer):
             'phone',
             'phonefix',
         )
-        read_only_fields = ('user',)
+        read_only_fields = ('user', 'id')
