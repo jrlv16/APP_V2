@@ -11,6 +11,8 @@ dans app user
     créer view chef_elev pour créer modifier chef d'élevage     OK
     créer url correspondantes                                   OK
     renouvellement password fonctionne                          OK
+    modification téléphone                                      OK
+    
     signaux pour envoi sms
     chef_elev est crée envoie de mail/sms pourcréer mot de passe url
         CHAMB_ALIM/password_reset/confirm/?token=xxxx...
