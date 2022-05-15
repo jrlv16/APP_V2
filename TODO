@@ -32,6 +32,18 @@ créer app commande pour gérer les commandes
 
     liste des commandes du jour (définir plage horaire Var ENV) envoyée à heure fixe
 
+Créer vues 
+    pour FABRIC 
+        autoriser les clients à commander (canOrder)
+        tous les clients + CRUD
+        toutes les commandes non validées, validées, livrées, par client, par produit, par date
+        CRUD + validation des commandes
+
+    pour COMMERC
+        tous les clients + CRUD
+        toutes les commandes non validées, validées, livrées, par client, par produit, par date
+        
+
 
     OPTIONS:
         Validation de la livraison par le chauffeur
