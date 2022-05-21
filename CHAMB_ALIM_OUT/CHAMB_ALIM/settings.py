@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'alim',
     'user',
     'client',
+    'commande',
 ]
 
 MIDDLEWARE = [

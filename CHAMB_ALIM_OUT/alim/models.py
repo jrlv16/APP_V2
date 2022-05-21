@@ -284,7 +284,7 @@ class Order(models.Model):
     Defines order placed by a user that can be of all types except CHAUF
     """
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   verbose_name="Client",
+                                   verbose_name="Donneur Ordre",
                                    related_name="order_createur",
                                    blank=True,
                                    null=True,
@@ -305,16 +305,18 @@ class Order(models.Model):
     created = models.DateTimeField(_('Crée le'), auto_now_add=True)
     updated = models.DateTimeField(_('Modifié le'), auto_now=True)
     date_order = models.DateField(_('date de commande'),
-                                  blank=False,
-                                  null=False)
+                                  auto_now_add=True)
     delivery = models.DateField(_('Livraison le: '))
     recorded = models.BooleanField(default=False)
     delivered = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['date_order']
+        ordering = ['-date_order']
 
-    def elevage_list(self):
+    def __str__(self):
+        return '%s %s' % (self.delivery, self.elevage)
+
+    def elevagelist(self):
         """
         Returns elevage list attached to client or chef_elev
         if user is Fabric or Commerc returns list of Client and then returns elevage list
@@ -337,7 +339,7 @@ class Order(models.Model):
 
     def save(self, *args, **kwargs):
 
-        date_o = dateutil.parser.parse(str(self.date_order)).date()
+        #date_o = dateutil.parser.parse(str(self.date_order)).date()
         date_d = dateutil.parser.parse(str(self.delivery)).date()
 
         if not self.created_by.canOrder:

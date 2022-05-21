@@ -21,4 +21,5 @@ urlpatterns = [
     path('CHAMB_ALIM/client/', include('client.urls')),
     path('CHAMB_ALIM/password_reset/',
          include('django_rest_passwordreset.urls', namespace='password_reset')),
+    path('CHAMB_ALIM/commande/', include('commande.urls')),
 ]
