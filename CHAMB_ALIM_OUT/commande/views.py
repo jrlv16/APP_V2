@@ -8,7 +8,11 @@ from alim.models import Order
 from commande.serializers import OrderSerializer
 
 
-class CommandeViewSet(viewsets.ModelViewSet):
+class CommandeViewSet(mixins.ListModelMixin,
+                      mixins.CreateModelMixin,
+                      mixins.UpdateModelMixin,
+                      mixins.RetrieveModelMixin,
+                      viewsets.GenericViewSet,):
     permission_classes = (IsAuthenticated,)
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
@@ -38,3 +42,10 @@ class CommandeViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.recorded or instance.delivered:
+            msg = _('commande déja enregistrée ou livrée')
+            raise serializers.ValidationError(msg, code='authorization')
+        return super().update(request, *args, **kwargs)

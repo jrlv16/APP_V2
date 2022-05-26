@@ -304,8 +304,8 @@ class Order(models.Model):
     )
     created = models.DateTimeField(_('Crée le'), auto_now_add=True)
     updated = models.DateTimeField(_('Modifié le'), auto_now=True)
-    date_order = models.DateField(_('date de commande'),
-                                  auto_now_add=True)
+    date_order = models.DateTimeField(_('date de commande'),
+                                      auto_now_add=True)
     delivery = models.DateField(_('Livraison le: '))
     recorded = models.BooleanField(default=False)
     delivered = models.BooleanField(default=False)
@@ -354,6 +354,7 @@ class Order(models.Model):
         if self.updated:
             datetime_u = dateutil.parser.parse(str(self.updated))
             datetime_o = dateutil.parser.parse(str(self.date_order))
+            print(datetime_o, datetime_u)
             delta = datetime_o - datetime_u
         if date_d <= datetime.date.today():
             msg = _('la commande ne peut pas être livrée dans un délai inférieur à {} '
