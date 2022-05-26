@@ -12,13 +12,15 @@ dans app user
     créer url correspondantes                                   OK
     renouvellement password fonctionne                          OK
     modification téléphone                                      OK
+    liste client et chef elevage  en cours voir update
     
     signaux pour envoi sms
     chef_elev est crée envoie de mail/sms pourcréer mot de passe url
         CHAMB_ALIM/password_reset/confirm/?token=xxxx...
 
 créer app commande pour gérer les commandes
-
+    création commande par client                                OK
+    création commande par FABRIC ou COMMERC à faire
     créer serializer, vue, url pour élevage 
     créer serializer, vue, url pour boisseau/silo 
     views, url

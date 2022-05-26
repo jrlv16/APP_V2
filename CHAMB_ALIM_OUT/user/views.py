@@ -71,9 +71,11 @@ class UserCoordView(generics.CreateAPIView,
         return Response(serializer.data)
 
 
-class CreateChef_elevView(generics.ListCreateAPIView,
-                          generics.DestroyAPIView,
-                          ):
+class Chef_elevView(generics.ListAPIView,
+                    generics.CreateAPIView,
+                    generics.RetrieveUpdateAPIView,
+                    generics.DestroyAPIView,
+                    ):
     """Create a new Chef_elev"""
     serializer_class = Chef_elevSerializer
 
@@ -98,7 +100,7 @@ class CreateChef_elevView(generics.ListCreateAPIView,
         cheflist = Chef_elev.objects.all().filter(created_by=self.get_object())
         numchef = len(cheflist)+1
         chef_elev.clientcode = str(
-            self.get_object().clientcode + "_"+str(numchef))
+            self.get_object().clientcode + "_"+"chef_elev.first_name"+"_"+str(numchef))
         chef_elev.created_by = self.get_object()
         chef_elev.last_name = request.data['last_name']
         chef_elev.first_name = request.data['first_name']

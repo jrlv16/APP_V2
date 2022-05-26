@@ -4,7 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers, viewsets, mixins, generics, filters
 from rest_framework.permissions import IsAuthenticated
 
-from alim.models import Order
+from alim.models import Order, Elevage, Silo
+
 from commande.serializers import OrderSerializer
 
 
@@ -16,8 +17,13 @@ class CommandeViewSet(mixins.ListModelMixin,
     permission_classes = (IsAuthenticated,)
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    filter_backends = [filters.OrderingFilter]
-    ordering_fields = ['-delivery', 'product']
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter
+    ]
+    ordering_fields = ['delivery', 'product']
+    search_fields = [
+        'elevage__nom', 'product__produit', 'elevage__client__last_name']
 
     def get_user(self):
         """
@@ -29,7 +35,10 @@ class CommandeViewSet(mixins.ListModelMixin,
         """Return objects for the current authenticated user only"""
         assigned_only = bool(self.request.query_params.get('assigned_only'))
         queryset = self.queryset
-        if assigned_only:
+        user = self.get_user()
+        if user.cat not in ['CLIENT', 'CH_ELE']:
+            return queryset.filter(delivered=False)
+        elif assigned_only:
             queryset = queryset.filter(user__isnull=False)
 
         return queryset.filter(

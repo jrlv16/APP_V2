@@ -14,7 +14,7 @@ urlpatterns = [
 
 
     path('chef_elevage/',
-         views.CreateChef_elevView.as_view(), name="create_chefelev"),
+         views.Chef_elevView.as_view(), name="create_chefelev"),
     path('me/', views.ManageUserView.as_view(), name='me'),
     path('coord/', views.UserCoordView.as_view(), name='coord'),
 ]

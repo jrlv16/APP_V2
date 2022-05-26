@@ -311,7 +311,7 @@ class Order(models.Model):
     delivered = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['-date_order']
+        ordering = ['-date_order', 'delivery']
 
     def __str__(self):
         return '%s %s' % (self.delivery, self.elevage)

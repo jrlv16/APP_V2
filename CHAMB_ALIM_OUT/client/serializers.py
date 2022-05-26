@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from alim.models import Cat, Telephone
+from alim.models import Cat, Telephone, Elevage
 
 
 class CatSerializer(serializers.ModelSerializer):
@@ -28,3 +28,19 @@ class TelephoneSerializer(serializers.ModelSerializer):
             'phonefix',
         )
         read_only_fields = ('user', 'id')
+
+
+class ElevageSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Elevage object
+    """
+    class Meta:
+        model = Elevage
+        fields = (
+            'id',
+            'nom',
+            'typ_elevage',
+            'chef_elev',
+            'client',
+        )
+        read_only_fields = ('id',)

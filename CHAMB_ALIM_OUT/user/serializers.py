@@ -69,7 +69,7 @@ class Chef_elevSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'telephone',
-            'created_by'
+
         )
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
         read_only_fields = ('id', 'clientcode', 'created_by')
