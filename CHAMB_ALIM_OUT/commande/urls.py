@@ -5,6 +5,7 @@ from commande import views
 
 router = DefaultRouter()
 router.register('commande', views.CommandeViewSet)
+router.register('chef_elev', views.Chef_elevViewSet)
 
 app_name = 'commande/'
 

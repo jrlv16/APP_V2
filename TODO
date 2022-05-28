@@ -12,8 +12,8 @@ dans app user
     créer url correspondantes                                   OK
     renouvellement password fonctionne                          OK
     modification téléphone                                      OK
-    liste client et chef elevage  en cours voir update
-    
+    liste chef elevage  update                                  OK
+    liste client et chef elevage  en cours voir update          
     signaux pour envoi sms
     chef_elev est crée envoie de mail/sms pourcréer mot de passe url
         CHAMB_ALIM/password_reset/confirm/?token=xxxx...

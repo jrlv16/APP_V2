@@ -73,9 +73,3 @@ class Chef_elevSerializer(serializers.ModelSerializer):
         )
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
         read_only_fields = ('id', 'clientcode', 'created_by')
-
-    def update(self, instance, validated_data):
-        """update a Chef_elev and cat correctly and return it"""
-        chef_elev = super().update(instance, validated_data)
-        Chef_elev.objects.update()
-        return chef_elev
